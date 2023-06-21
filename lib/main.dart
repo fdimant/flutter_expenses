@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './models/transaction.dart';
+import 'package:intl/intl.dart';
 
 main() => runApp(ExpensesApp());
 
@@ -15,6 +16,9 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final titleController = TextEditingController();
+  final valueController = TextEditingController();
+
   final _transaction = [
     Transaction(
       id: 't1',
@@ -25,7 +29,7 @@ class MyHomePage extends StatelessWidget {
     Transaction(
       id: 't2',
       title: 'Luz',
-      value: 25.05,
+      value: 25.50,
       date: DateTime.now(),
     )
   ];
@@ -37,7 +41,6 @@ class MyHomePage extends StatelessWidget {
         title: Text('Despesas Pessoais'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -48,8 +51,87 @@ class MyHomePage extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            child: Card(
-              child: Text('Lista de transações'),
+            child: Column(
+              children: [
+                ..._transaction.map((tr) {
+                  return Card(
+                    child: Row(children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                          color: Colors.purple.shade700,
+                          width: 2,
+                        )),
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'R\$ ${tr.value.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            tr.title,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            DateFormat('d MMM y').format(tr.date),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey,
+                            ),
+                          )
+                        ],
+                      )
+                    ]),
+                  );
+                }).toList(),
+                Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: titleController,
+                          decoration: InputDecoration(labelText: 'Título da Despesa'),
+                        ),
+                        TextField(
+                          controller: valueController,
+                          decoration: InputDecoration(labelText: 'Valor (R\$)'),
+                        ),
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          margin: EdgeInsets.all(10),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              print(titleController.text);
+                              print(valueController.text);
+                            },
+                            child: Text('Nova Transação'),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(Colors.purple),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           )
         ],
