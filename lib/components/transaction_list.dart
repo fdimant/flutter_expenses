@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +25,7 @@ class TransactionList extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                         border: Border.all(
-                      color: Colors.purple.shade700,
+                      color: Theme.of(context).colorScheme.primary,
                       width: 2,
                     )),
                     padding: EdgeInsets.all(10),
@@ -35,7 +34,7 @@ class TransactionList extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.purple,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ),
