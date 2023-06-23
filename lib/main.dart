@@ -10,34 +10,33 @@ main() => runApp(ExpensesApp());
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ThemeData tema = ThemeData();
-
     return MaterialApp(
-        title: 'teste',
-        color: Colors.amber,
-        home: MyHomePage(),
-        theme: tema.copyWith(
-          colorScheme: tema.colorScheme.copyWith(
-            primary: Colors.purple,
-            secondary: Colors.amber,
-          ),
-          textTheme: tema.textTheme.copyWith(
-            headlineLarge: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
+      home: MyHomePage(),
+      theme: ThemeData(
+          colorSchemeSeed: Colors.purple,
+//        primarySwatch: Colors.purple,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                titleMedium: TextStyle(
+                  fontFamily: 'OpenSans',
+                  color: const Color.fromARGB(255, 5, 63, 90),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                titleSmall: TextStyle(
+                  fontFamily: 'OpenSans',
+                  color: Colors.blueGrey.shade400,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
           appBarTheme: AppBarTheme(
-            titleTextStyle: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          scaffoldBackgroundColor: Colors.grey.shade100,
-        ));
+              titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ))),
+    );
   }
 }
 
@@ -47,19 +46,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'Tênis',
-      value: 158.55,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Luz',
-      value: 25.50,
-      date: DateTime.now(),
-    ),
+  final List<Transaction> _transactions = [
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Tênis',
+    //   value: 158.55,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Luz',
+    //   value: 25.50,
+    //   date: DateTime.now(),
+    // ),
   ];
 
   _addTransaction(String title, double value) {
@@ -90,7 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Despesas Pessoais'),
+        title: Text(
+          'Despesas Pessoais',
+        ),
         actions: [
           IconButton(
             onPressed: () => _opentransactionFormModal(context),
