@@ -4,14 +4,15 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final void Function(String) onRemove;
 
-  TransactionList(this.transactions);
+  TransactionList(this.transactions, this.onRemove);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        height: 400,
+        height: 600,
         child: transactions.isEmpty
             ? Column(
                 children: [
@@ -31,47 +32,47 @@ class TransactionList extends StatelessWidget {
                   )
                 ],
               )
-            : ListView.builder(
-                itemCount: transactions.length,
-                itemBuilder: (ctx, index) {
-                  final tr = transactions[index];
-                  return Card(
-                    child: Row(children: [
-                      Container(
+            : Scrollbar(
+                thumbVisibility: true,
+                thickness: 10,
+                scrollbarOrientation: ScrollbarOrientation.right,
+                radius: Radius.circular(10),
+                child: ListView.builder(
+                    itemCount: transactions.length,
+                    itemBuilder: (ctx, index) {
+                      final tr = transactions[index];
+                      return Card(
+                        elevation: 5,
                         margin: EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
+                          vertical: 8,
+                          horizontal: 5,
                         ),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2,
-                        )),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'R\$ ${tr.value.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(3),
+                          leading: CircleAvatar(
+                            radius: 30,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FittedBox(
+                                child: Text('R\$ ${tr.value.toStringAsFixed(2)}'),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
+                          title: Text(
                             tr.title,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          Text(
-                            DateFormat('d MMM y').format(tr.date),
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
-                        ],
-                      )
-                    ]),
-                  );
-                }));
+                          subtitle: Text(
+                            DateFormat('d MMM y').format(tr.date),
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete_outline_rounded),
+                            onPressed: () => onRemove(tr.id),
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                      );
+                    }),
+              ));
   }
 }
