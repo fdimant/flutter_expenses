@@ -2,12 +2,11 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_expenses/components/transaction_form.dart';
 import 'components/chart.dart';
 import 'components/transaction_list.dart';
 import 'models/transaction.dart';
-
-import 'package:flutter/gestures.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
@@ -18,7 +17,16 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
       };
 }
 
-main() => runApp(ExpensesApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight
+  ]);
+  runApp(ExpensesApp());
+}
 
 class ExpensesApp extends StatelessWidget {
   @override
@@ -61,6 +69,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -102,11 +111,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLanscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
     final AppBarModel = AppBar(
       title: Text(
         'Despesas Pessoais',
       ),
       actions: [
+        if (isLanscape)
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+            icon: Icon(!_showChart ? Icons.bar_chart : Icons.list_sharp),
+          ),
         IconButton(
           onPressed: () => _opentransactionFormModal(context),
           icon: Icon(Icons.add_box_outlined),
@@ -122,14 +142,16 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              height: availableHeight * 0.3,
-              child: Chart(_recentTransactions),
-            ),
-            Container(
-              height: availableHeight * 0.7,
-              child: TransactionList(_transactions, _removeTransaction),
-            ),
+            if (_showChart || !isLanscape)
+              Container(
+                height: availableHeight * (isLanscape ? 0.65 : 0.3),
+                child: Chart(_recentTransactions),
+              ),
+            if (!_showChart || !isLanscape)
+              Container(
+                height: availableHeight * 0.7,
+                child: TransactionList(_transactions, _removeTransaction),
+              ),
           ],
         ),
       ),
