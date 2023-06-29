@@ -111,7 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLanscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    bool isLanscape = mediaQuery.orientation == Orientation.landscape;
 
     final AppBarModel = AppBar(
       title: Text(
@@ -133,26 +134,27 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
-    final availableHeight =
-        MediaQuery.of(context).size.height - AppBarModel.preferredSize.height - MediaQuery.of(context).padding.top;
+    final availableHeight = mediaQuery.size.height - AppBarModel.preferredSize.height - mediaQuery.padding.top;
 
     return Scaffold(
       appBar: AppBarModel,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (_showChart || !isLanscape)
-              Container(
-                height: availableHeight * (isLanscape ? 0.65 : 0.3),
-                child: Chart(_recentTransactions),
-              ),
-            if (!_showChart || !isLanscape)
-              Container(
-                height: availableHeight * 0.7,
-                child: TransactionList(_transactions, _removeTransaction),
-              ),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (_showChart || !isLanscape)
+                Container(
+                  height: availableHeight * (isLanscape ? 0.65 : 0.3),
+                  child: Chart(_recentTransactions),
+                ),
+              if (!_showChart || !isLanscape)
+                Container(
+                  height: availableHeight * 0.7,
+                  child: TransactionList(_transactions, _removeTransaction),
+                ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
