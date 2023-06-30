@@ -35,7 +35,7 @@ class ExpensesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       scrollBehavior: MyCustomScrollBehavior(),
-      home: MyHomePage(),
+      home: const MyHomePage(),
       theme: ThemeData(
           colorSchemeSeed: Colors.purple,
 //        primarySwatch: Colors.purple,
@@ -65,6 +65,8 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -76,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
       return tr.date.isAfter(DateTime.now().subtract(
-        Duration(days: 7),
+        const Duration(days: 7),
       ));
     }).toList();
   }
@@ -116,8 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final mediaQuery = MediaQuery.of(context);
     bool isLanscape = mediaQuery.orientation == Orientation.landscape;
 
-    final AppBarModel = AppBar(
-      title: Text(
+    final appBarModel = AppBar(
+      title: const Text(
         'Despesas Pessoais',
       ),
       actions: [
@@ -132,26 +134,26 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         IconButton(
           onPressed: () => _opentransactionFormModal(context),
-          icon: Icon(Icons.add_box_outlined),
+          icon: const Icon(Icons.add_box_outlined),
         ),
       ],
     );
-    final availableHeight = mediaQuery.size.height - AppBarModel.preferredSize.height - mediaQuery.padding.top;
+    final availableHeight = mediaQuery.size.height - appBarModel.preferredSize.height - mediaQuery.padding.top;
 
     return Scaffold(
-      appBar: AppBarModel,
+      appBar: appBarModel,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (_showChart || !isLanscape)
-                Container(
+                SizedBox(
                   height: availableHeight * (isLanscape ? 0.65 : 0.3),
                   child: Chart(_recentTransactions),
                 ),
               if (!_showChart || !isLanscape)
-                Container(
+                SizedBox(
                   height: availableHeight * 0.7,
                   child: TransactionList(_transactions, _removeTransaction),
                 ),
@@ -160,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () => _opentransactionFormModal(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
