@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expenses/components/adaptative_button.dart';
-import 'adaptative_datePicker.dart';
-import 'adaptative_textField.dart';
+import 'adaptative_date_picker.dart';
+import 'adaptative_text_field.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
 
-  TransactionForm(this.onSubmit);
+  const TransactionForm(this.onSubmit, {super.key});
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
@@ -44,19 +44,19 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           child: Column(
             children: [
-              adaptativeTextField(
+              AdaptativeTextField(
                 controller: _titleController,
                 decorationString: 'Título da Despesa',
                 onSubmitted: (value) => _submitForm(),
                 autofocus: true,
               ),
-              adaptativeTextField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+              AdaptativeTextField(
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 controller: _valueController,
                 decorationString: 'Valor (R\$)',
                 onSubmitted: (value) => _submitForm(),
               ),
-              adaptativeDatePicker(
+              AdaptativeDatePicker(
                 selectedDate: _selectedDate,
                 onDateChange: (newDate) {
                   setState(() {
@@ -66,7 +66,7 @@ class _TransactionFormState extends State<TransactionForm> {
               ),
               Container(
                   alignment: Alignment.bottomRight,
-                  margin: EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(10),
                   child: AdaptativeButton(label: 'Nova Transação', onPressed: _submitForm))
             ],
           ),

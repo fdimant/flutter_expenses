@@ -25,10 +25,12 @@ void main() {
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight
   ]);
-  runApp(ExpensesApp());
+  runApp(const ExpensesApp());
 }
 
 class ExpensesApp extends StatelessWidget {
+  const ExpensesApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,9 +41,9 @@ class ExpensesApp extends StatelessWidget {
 //        primarySwatch: Colors.purple,
           fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
-                titleMedium: TextStyle(
+                titleMedium: const TextStyle(
                   fontFamily: 'OpenSans',
-                  color: const Color.fromARGB(255, 5, 63, 90),
+                  color: Color.fromARGB(255, 5, 63, 90),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -52,7 +54,7 @@ class ExpensesApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
               titleTextStyle: TextStyle(
             fontFamily: 'OpenSans',
             fontSize: 24,

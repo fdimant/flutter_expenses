@@ -1,17 +1,15 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-class adaptativeTextField extends StatelessWidget {
+class AdaptativeTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextEditingController controller;
   final Function(String) onSubmitted;
   final String decorationString;
   final bool autofocus;
 
-  adaptativeTextField({
+  const AdaptativeTextField({
     required this.controller,
     this.keyboardType = TextInputType.text,
     required this.onSubmitted,
@@ -30,7 +28,7 @@ class adaptativeTextField extends StatelessWidget {
               placeholder: decorationString,
               onSubmitted: onSubmitted,
               autofocus: autofocus,
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 6,
                 vertical: 12,
               ),
