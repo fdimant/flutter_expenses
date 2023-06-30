@@ -10,6 +10,7 @@ class AdaptativeTextField extends StatelessWidget {
   final bool autofocus;
 
   const AdaptativeTextField({
+    super.key,
     required this.controller,
     this.keyboardType = TextInputType.text,
     required this.onSubmitted,

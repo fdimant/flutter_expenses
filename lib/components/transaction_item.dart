@@ -30,8 +30,13 @@ class TransactionItem extends StatelessWidget {
       child: ListTile(
           contentPadding: const EdgeInsets.all(3),
           leading: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueAccent),
+              color: Colors.blueAccent,
+              borderRadius: const BorderRadius.all(Radius.circular(5)),
+            ),
             alignment: Alignment.centerRight,
-            color: Colors.blueAccent,
+            //color: Colors.blueAccent,
             height: 40,
             width: 100,
             child: Padding(
@@ -57,7 +62,9 @@ class TransactionItem extends StatelessWidget {
               ? TextButton.icon(
                   onPressed: () => onRemove(tr.id),
                   label: const Text('Remover'),
-                  icon: const Icon(Icons.delete_outline_rounded),
+                  icon: const Icon(
+                    Icons.delete_outline_rounded,
+                  ),
                 )
               : IconButton(
                   icon: const Icon(Icons.delete_outline_rounded),

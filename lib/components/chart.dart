@@ -5,7 +5,7 @@ import '../models/transaction.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransaction;
-  Chart(this.recentTransaction);
+  const Chart(this.recentTransaction, {super.key});
 
   List<Map<String, Object>> get groupTransactions {
     return List.generate(7, (index) {
@@ -29,17 +29,6 @@ class Chart extends StatelessWidget {
     }).reversed.toList();
   }
 
-  String _totalSumAbr(double value) {
-    String valueStr = '';
-    if (value > 10000) {
-      value = value / 10000;
-      valueStr = '${value.toString()}K';
-    } else {
-      valueStr = '${value.toString()}K';
-    }
-    return valueStr;
-  }
-
   double get _weekTotalValue {
     return groupTransactions.fold(0.0, (sum, tr) {
       return sum + (tr['value'] as double);
@@ -51,7 +40,7 @@ class Chart extends StatelessWidget {
     groupTransactions;
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
